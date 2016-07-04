@@ -26555,6 +26555,10 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
+	var _Profile = __webpack_require__(235);
+
+	var _Profile2 = _interopRequireDefault(_Profile);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = function (React, Route, IndexRoute) {
@@ -26562,10 +26566,12 @@
 
 	    var Main = (0, _Main2.default)(React);
 	    var Home = (0, _Home2.default)(React);
+	    var Profile = (0, _Profile2.default)(React);
 
 	    return React.createElement(
 	      Route,
 	      { path: '/', component: Main },
+	      React.createElement(Route, { path: 'profile/:username', component: Profile }),
 	      React.createElement(IndexRoute, { component: Home })
 	    );
 	  };
@@ -26623,6 +26629,53 @@
 	      "Search by Github Username Above"
 	    );
 	  };
+	};
+
+/***/ },
+/* 235 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (React) {
+
+	  var profile = function profile(_ref) {
+	    var params = _ref.params;
+	    return React.createElement(
+	      "div",
+	      { className: "row" },
+	      React.createElement(
+	        "div",
+	        { className: "col-md-4" },
+	        "User Profile Component ---> ",
+	        params.username
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "col-md-4" },
+	        "Repos Component"
+	      ),
+	      React.createElement(
+	        "div",
+	        { className: "col-md-4" },
+	        "Notes Component"
+	      )
+	    );
+	  };
+
+	  profile.getInitialState = function () {
+	    return {
+	      notes: [],
+	      bio: {},
+	      repos: []
+	    };
+	  };
+
+	  return profile;
 	};
 
 /***/ }

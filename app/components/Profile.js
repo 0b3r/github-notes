@@ -1,10 +1,9 @@
+export default React => {
 
-export default React => () => {
-
-  return (
+  const profile = ({ params }) => (
     <div className="row">
       <div className="col-md-4">
-        User Profile Component
+        User Profile Component ---> { params.username }
       </div>
       <div className="col-md-4">
         Repos Component
@@ -14,4 +13,14 @@ export default React => () => {
       </div>
     </div>
   )
+
+  profile.getInitialState = () => {
+    return {
+      notes: [],
+      bio: {},
+      repos: []
+    }
+  }
+
+  return profile;
 }
