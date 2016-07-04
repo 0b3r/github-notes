@@ -60,10 +60,12 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var routes = (0, _routes2.default)(_react2.default, _reactRouter.Route, _reactRouter.IndexRoute);
+
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
-	  null,
-	  _routes2.default
+	  { history: _reactRouter.hashHistory },
+	  routes()
 	), document.getElementById('app'));
 
 /***/ },
@@ -26545,10 +26547,6 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _Main = __webpack_require__(233);
 
 	var _Main2 = _interopRequireDefault(_Main);
@@ -26557,19 +26555,25 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _reactRouter = __webpack_require__(170);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = _react2.default.createElement(
-	  _reactRouter.Route,
-	  { path: '/', component: _Main2.default },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default })
-	);
+	exports.default = function (React, Route, IndexRoute) {
+	  return function () {
+
+	    var Main = (0, _Main2.default)(React);
+	    var Home = (0, _Home2.default)(React);
+
+	    return React.createElement(
+	      Route,
+	      { path: '/', component: Main },
+	      React.createElement(IndexRoute, { component: Home })
+	    );
+	  };
+	};
 
 /***/ },
 /* 233 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
@@ -26577,42 +26581,33 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Main = _react2.default.createClass({
-	  displayName: "Main",
-
-	  render: function render() {
-	    return _react2.default.createElement(
+	exports.default = function (React) {
+	  return function (_ref) {
+	    var children = _ref.children;
+	    return React.createElement(
 	      "div",
 	      { className: "main-container" },
-	      _react2.default.createElement(
+	      React.createElement(
 	        "nav",
 	        { className: "navbar navbar-default", role: "navigation" },
-	        _react2.default.createElement(
+	        React.createElement(
 	          "div",
 	          { className: "col-sm-7 col-sm-offset-2", style: { marginTop: 15 } },
 	          "MENU"
 	        )
 	      ),
-	      _react2.default.createElement(
+	      React.createElement(
 	        "div",
 	        { className: "container" },
-	        this.props.children
+	        children
 	      )
 	    );
-	  }
-	});
-
-	exports.default = Main;
+	  };
+	};
 
 /***/ },
 /* 234 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
@@ -26620,25 +26615,15 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Home = _react2.default.createClass({
-	  displayName: "Home",
-
-	  render: function render() {
-	    return _react2.default.createElement(
+	exports.default = function (React) {
+	  return function () {
+	    return React.createElement(
 	      "h2",
-	      { className: "text-center" },
+	      null,
 	      "Search by Github Username Above"
 	    );
-	  }
-	});
-
-	exports.default = Home;
+	  };
+	};
 
 /***/ }
 /******/ ]);

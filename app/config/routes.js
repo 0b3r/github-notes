@@ -1,12 +1,15 @@
-import React from 'react';
-import Main from '../components/Main';
-import Home from '../components/Home';
-import { Route, IndexRoute } from 'react-router';
+import createMain from '../components/Main';
+import createHome from '../components/Home';
 
+export default (React, Route, IndexRoute) => () => {
 
-export default (
-  <Route path="/" component={ Main }>
-  
-    <IndexRoute component={ Home } />
-  </Route>
-)
+  const Main = createMain(React);
+  const Home = createHome(React);
+
+  return (
+    <Route path="/" component={ Main }>
+      <IndexRoute component={ Home } /> 
+    </Route>
+  )
+
+}
