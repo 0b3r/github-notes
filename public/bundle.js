@@ -26633,6 +26633,89 @@
 
 /***/ },
 /* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Repos = __webpack_require__(248);
+
+	var _Repos2 = _interopRequireDefault(_Repos);
+
+	var _UserProfile = __webpack_require__(249);
+
+	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+
+	var _Notes = __webpack_require__(250);
+
+	var _Notes2 = _interopRequireDefault(_Notes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	exports.default = function (React) {
+
+	  var Repos = (0, _Repos2.default)(React);
+	  var UserProfile = (0, _UserProfile2.default)(React);
+	  var Notes = (0, _Notes2.default)(React);
+
+	  var profile = function profile(_ref) {
+	    var state = _objectWithoutProperties(_ref, []);
+
+	    console.log(state);
+
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-4' },
+	        React.createElement(UserProfile, null)
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-4' },
+	        React.createElement(Repos, null)
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-md-4' },
+	        React.createElement(Notes, null)
+	      )
+	    );
+	  };
+
+	  profile.getInitialState = function () {
+	    return {
+	      notes: [],
+	      bio: {
+	        name: 'Justin Ober'
+	      },
+	      repos: []
+	    };
+	  };
+
+	  return profile;
+	};
+
+/***/ },
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -26642,40 +26725,53 @@
 	});
 
 	exports.default = function (React) {
-
-	  var profile = function profile(_ref) {
-	    var params = _ref.params;
+	  return function () {
 	    return React.createElement(
 	      "div",
-	      { className: "row" },
-	      React.createElement(
-	        "div",
-	        { className: "col-md-4" },
-	        "User Profile Component ---> ",
-	        params.username
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "col-md-4" },
-	        "Repos Component"
-	      ),
-	      React.createElement(
-	        "div",
-	        { className: "col-md-4" },
-	        "Notes Component"
-	      )
+	      null,
+	      "REPOS"
 	    );
 	  };
+	};
 
-	  profile.getInitialState = function () {
-	    return {
-	      notes: [],
-	      bio: {},
-	      repos: []
-	    };
+/***/ },
+/* 249 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (React) {
+	  return function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      "USER PROFILE"
+	    );
 	  };
+	};
 
-	  return profile;
+/***/ },
+/* 250 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function (React) {
+	  return function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      "NOTES"
+	    );
+	  };
 	};
 
 /***/ }

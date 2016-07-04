@@ -1,0 +1,1 @@
+export default React => () => (<div>USER PROFILE</div>)
