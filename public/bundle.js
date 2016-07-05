@@ -58,9 +58,20 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
+	var _redux = __webpack_require__(251);
+
+	var _store = __webpack_require__(264);
+
+	var _store2 = _interopRequireDefault(_store);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var routes = (0, _routes2.default)(_react2.default, _reactRouter.Route, _reactRouter.IndexRoute);
+	var store = (0, _redux.createStore)(_store2.default);
+	var routes = (0, _routes2.default)(_react2.default, _reactRouter.Route, _reactRouter.IndexRoute, store);
+
+	store.subscribe(function () {
+	  console.log(store.getState());
+	});
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
@@ -26547,6 +26558,8 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _Main = __webpack_require__(233);
 
 	var _Main2 = _interopRequireDefault(_Main);
@@ -26561,17 +26574,21 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	exports.default = function (React, Route, IndexRoute) {
+	exports.default = function (React, Route, IndexRoute, store) {
 	  return function () {
 
 	    var Main = (0, _Main2.default)(React);
 	    var Home = (0, _Home2.default)(React);
 	    var Profile = (0, _Profile2.default)(React);
 
+	    var state = store.getState();
+
+	    console.log(state);
+
 	    return React.createElement(
 	      Route,
 	      { path: '/', component: Main },
-	      React.createElement(Route, { path: 'profile/:username', component: Profile }),
+	      React.createElement(Route, _extends({ path: 'profile/:username', component: Profile }, state)),
 	      React.createElement(IndexRoute, { component: Home })
 	    );
 	  };
@@ -26653,9 +26670,11 @@
 
 	var _Notes2 = _interopRequireDefault(_Notes);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _reactfire = __webpack_require__(268);
 
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	var _reactfire2 = _interopRequireDefault(_reactfire);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = function (React) {
 
@@ -26663,18 +26682,22 @@
 	  var UserProfile = (0, _UserProfile2.default)(React);
 	  var Notes = (0, _Notes2.default)(React);
 
+	  //const { bio, notes, repos} = store.getState();
+
 	  var profile = function profile(_ref) {
-	    var state = _objectWithoutProperties(_ref, []);
+	    var _ref$route = _ref.route;
+	    var bio = _ref$route.bio;
+	    var repos = _ref$route.repos;
+	    var notes = _ref$route.notes;
 
-	    console.log(state);
-
+	    console.log(bio);
 	    return React.createElement(
 	      'div',
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        React.createElement(UserProfile, null)
+	        React.createElement(UserProfile, bio)
 	      ),
 	      React.createElement(
 	        'div',
@@ -26687,16 +26710,6 @@
 	        React.createElement(Notes, null)
 	      )
 	    );
-	  };
-
-	  profile.getInitialState = function () {
-	    return {
-	      notes: [],
-	      bio: {
-	        name: 'Justin Ober'
-	      },
-	      repos: []
-	    };
 	  };
 
 	  return profile;
@@ -26745,11 +26758,32 @@
 	});
 
 	exports.default = function (React) {
-	  return function () {
+	  return function (_ref) {
+	    var firstName = _ref.firstName;
+	    var lastName = _ref.lastName;
+	    var age = _ref.age;
 	    return React.createElement(
 	      "div",
 	      null,
-	      "USER PROFILE"
+	      "USER PROFILE:",
+	      React.createElement(
+	        "p",
+	        null,
+	        "First Name: ",
+	        firstName
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Last Name: ",
+	        lastName
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Age: ",
+	        age
+	      )
 	    );
 	  };
 	};
@@ -26773,6 +26807,1413 @@
 	    );
 	  };
 	};
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
+
+	var _createStore = __webpack_require__(252);
+
+	var _createStore2 = _interopRequireDefault(_createStore);
+
+	var _combineReducers = __webpack_require__(259);
+
+	var _combineReducers2 = _interopRequireDefault(_combineReducers);
+
+	var _bindActionCreators = __webpack_require__(261);
+
+	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
+
+	var _applyMiddleware = __webpack_require__(262);
+
+	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
+
+	var _compose = __webpack_require__(263);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	var _warning = __webpack_require__(260);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/*
+	* This is a dummy function to check if the function name has been altered by minification.
+	* If the function has been minified and NODE_ENV !== 'production', warn the user.
+	*/
+	function isCrushed() {}
+
+	if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+	  (0, _warning2["default"])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+	}
+
+	exports.createStore = _createStore2["default"];
+	exports.combineReducers = _combineReducers2["default"];
+	exports.bindActionCreators = _bindActionCreators2["default"];
+	exports.applyMiddleware = _applyMiddleware2["default"];
+	exports.compose = _compose2["default"];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports.ActionTypes = undefined;
+	exports["default"] = createStore;
+
+	var _isPlainObject = __webpack_require__(253);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _symbolObservable = __webpack_require__(257);
+
+	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * These are private action types reserved by Redux.
+	 * For any unknown actions, you must return the current state.
+	 * If the current state is undefined, you must return the initial state.
+	 * Do not reference these action types directly in your code.
+	 */
+	var ActionTypes = exports.ActionTypes = {
+	  INIT: '@@redux/INIT'
+	};
+
+	/**
+	 * Creates a Redux store that holds the state tree.
+	 * The only way to change the data in the store is to call `dispatch()` on it.
+	 *
+	 * There should only be a single store in your app. To specify how different
+	 * parts of the state tree respond to actions, you may combine several reducers
+	 * into a single reducer function by using `combineReducers`.
+	 *
+	 * @param {Function} reducer A function that returns the next state tree, given
+	 * the current state tree and the action to handle.
+	 *
+	 * @param {any} [initialState] The initial state. You may optionally specify it
+	 * to hydrate the state from the server in universal apps, or to restore a
+	 * previously serialized user session.
+	 * If you use `combineReducers` to produce the root reducer function, this must be
+	 * an object with the same shape as `combineReducers` keys.
+	 *
+	 * @param {Function} enhancer The store enhancer. You may optionally specify it
+	 * to enhance the store with third-party capabilities such as middleware,
+	 * time travel, persistence, etc. The only store enhancer that ships with Redux
+	 * is `applyMiddleware()`.
+	 *
+	 * @returns {Store} A Redux store that lets you read the state, dispatch actions
+	 * and subscribe to changes.
+	 */
+	function createStore(reducer, initialState, enhancer) {
+	  var _ref2;
+
+	  if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+	    enhancer = initialState;
+	    initialState = undefined;
+	  }
+
+	  if (typeof enhancer !== 'undefined') {
+	    if (typeof enhancer !== 'function') {
+	      throw new Error('Expected the enhancer to be a function.');
+	    }
+
+	    return enhancer(createStore)(reducer, initialState);
+	  }
+
+	  if (typeof reducer !== 'function') {
+	    throw new Error('Expected the reducer to be a function.');
+	  }
+
+	  var currentReducer = reducer;
+	  var currentState = initialState;
+	  var currentListeners = [];
+	  var nextListeners = currentListeners;
+	  var isDispatching = false;
+
+	  function ensureCanMutateNextListeners() {
+	    if (nextListeners === currentListeners) {
+	      nextListeners = currentListeners.slice();
+	    }
+	  }
+
+	  /**
+	   * Reads the state tree managed by the store.
+	   *
+	   * @returns {any} The current state tree of your application.
+	   */
+	  function getState() {
+	    return currentState;
+	  }
+
+	  /**
+	   * Adds a change listener. It will be called any time an action is dispatched,
+	   * and some part of the state tree may potentially have changed. You may then
+	   * call `getState()` to read the current state tree inside the callback.
+	   *
+	   * You may call `dispatch()` from a change listener, with the following
+	   * caveats:
+	   *
+	   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+	   * If you subscribe or unsubscribe while the listeners are being invoked, this
+	   * will not have any effect on the `dispatch()` that is currently in progress.
+	   * However, the next `dispatch()` call, whether nested or not, will use a more
+	   * recent snapshot of the subscription list.
+	   *
+	   * 2. The listener should not expect to see all state changes, as the state
+	   * might have been updated multiple times during a nested `dispatch()` before
+	   * the listener is called. It is, however, guaranteed that all subscribers
+	   * registered before the `dispatch()` started will be called with the latest
+	   * state by the time it exits.
+	   *
+	   * @param {Function} listener A callback to be invoked on every dispatch.
+	   * @returns {Function} A function to remove this change listener.
+	   */
+	  function subscribe(listener) {
+	    if (typeof listener !== 'function') {
+	      throw new Error('Expected listener to be a function.');
+	    }
+
+	    var isSubscribed = true;
+
+	    ensureCanMutateNextListeners();
+	    nextListeners.push(listener);
+
+	    return function unsubscribe() {
+	      if (!isSubscribed) {
+	        return;
+	      }
+
+	      isSubscribed = false;
+
+	      ensureCanMutateNextListeners();
+	      var index = nextListeners.indexOf(listener);
+	      nextListeners.splice(index, 1);
+	    };
+	  }
+
+	  /**
+	   * Dispatches an action. It is the only way to trigger a state change.
+	   *
+	   * The `reducer` function, used to create the store, will be called with the
+	   * current state tree and the given `action`. Its return value will
+	   * be considered the **next** state of the tree, and the change listeners
+	   * will be notified.
+	   *
+	   * The base implementation only supports plain object actions. If you want to
+	   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+	   * wrap your store creating function into the corresponding middleware. For
+	   * example, see the documentation for the `redux-thunk` package. Even the
+	   * middleware will eventually dispatch plain object actions using this method.
+	   *
+	   * @param {Object} action A plain object representing “what changed”. It is
+	   * a good idea to keep actions serializable so you can record and replay user
+	   * sessions, or use the time travelling `redux-devtools`. An action must have
+	   * a `type` property which may not be `undefined`. It is a good idea to use
+	   * string constants for action types.
+	   *
+	   * @returns {Object} For convenience, the same action object you dispatched.
+	   *
+	   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+	   * return something else (for example, a Promise you can await).
+	   */
+	  function dispatch(action) {
+	    if (!(0, _isPlainObject2["default"])(action)) {
+	      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+	    }
+
+	    if (typeof action.type === 'undefined') {
+	      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+	    }
+
+	    if (isDispatching) {
+	      throw new Error('Reducers may not dispatch actions.');
+	    }
+
+	    try {
+	      isDispatching = true;
+	      currentState = currentReducer(currentState, action);
+	    } finally {
+	      isDispatching = false;
+	    }
+
+	    var listeners = currentListeners = nextListeners;
+	    for (var i = 0; i < listeners.length; i++) {
+	      listeners[i]();
+	    }
+
+	    return action;
+	  }
+
+	  /**
+	   * Replaces the reducer currently used by the store to calculate the state.
+	   *
+	   * You might need this if your app implements code splitting and you want to
+	   * load some of the reducers dynamically. You might also need this if you
+	   * implement a hot reloading mechanism for Redux.
+	   *
+	   * @param {Function} nextReducer The reducer for the store to use instead.
+	   * @returns {void}
+	   */
+	  function replaceReducer(nextReducer) {
+	    if (typeof nextReducer !== 'function') {
+	      throw new Error('Expected the nextReducer to be a function.');
+	    }
+
+	    currentReducer = nextReducer;
+	    dispatch({ type: ActionTypes.INIT });
+	  }
+
+	  /**
+	   * Interoperability point for observable/reactive libraries.
+	   * @returns {observable} A minimal observable of state changes.
+	   * For more information, see the observable proposal:
+	   * https://github.com/zenparsing/es-observable
+	   */
+	  function observable() {
+	    var _ref;
+
+	    var outerSubscribe = subscribe;
+	    return _ref = {
+	      /**
+	       * The minimal observable subscription method.
+	       * @param {Object} observer Any object that can be used as an observer.
+	       * The observer object should have a `next` method.
+	       * @returns {subscription} An object with an `unsubscribe` method that can
+	       * be used to unsubscribe the observable from the store, and prevent further
+	       * emission of values from the observable.
+	       */
+
+	      subscribe: function subscribe(observer) {
+	        if (typeof observer !== 'object') {
+	          throw new TypeError('Expected the observer to be an object.');
+	        }
+
+	        function observeState() {
+	          if (observer.next) {
+	            observer.next(getState());
+	          }
+	        }
+
+	        observeState();
+	        var unsubscribe = outerSubscribe(observeState);
+	        return { unsubscribe: unsubscribe };
+	      }
+	    }, _ref[_symbolObservable2["default"]] = function () {
+	      return this;
+	    }, _ref;
+	  }
+
+	  // When a store is created, an "INIT" action is dispatched so that every
+	  // reducer returns their initial state. This effectively populates
+	  // the initial state tree.
+	  dispatch({ type: ActionTypes.INIT });
+
+	  return _ref2 = {
+	    dispatch: dispatch,
+	    subscribe: subscribe,
+	    getState: getState,
+	    replaceReducer: replaceReducer
+	  }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
+	}
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var getPrototype = __webpack_require__(254),
+	    isHostObject = __webpack_require__(255),
+	    isObjectLike = __webpack_require__(256);
+
+	/** `Object#toString` result references. */
+	var objectTag = '[object Object]';
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to resolve the decompiled source of functions. */
+	var funcToString = Function.prototype.toString;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/** Used to infer the `Object` constructor. */
+	var objectCtorString = funcToString.call(Object);
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/**
+	 * Checks if `value` is a plain object, that is, an object created by the
+	 * `Object` constructor or one with a `[[Prototype]]` of `null`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.8.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a plain object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 * }
+	 *
+	 * _.isPlainObject(new Foo);
+	 * // => false
+	 *
+	 * _.isPlainObject([1, 2, 3]);
+	 * // => false
+	 *
+	 * _.isPlainObject({ 'x': 0, 'y': 0 });
+	 * // => true
+	 *
+	 * _.isPlainObject(Object.create(null));
+	 * // => true
+	 */
+	function isPlainObject(value) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
+	    return false;
+	  }
+	  var proto = getPrototype(value);
+	  if (proto === null) {
+	    return true;
+	  }
+	  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+	  return (typeof Ctor == 'function' &&
+	    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+	}
+
+	module.exports = isPlainObject;
+
+
+/***/ },
+/* 254 */
+/***/ function(module, exports) {
+
+	/* Built-in method references for those with the same name as other `lodash` methods. */
+	var nativeGetPrototype = Object.getPrototypeOf;
+
+	/**
+	 * Gets the `[[Prototype]]` of `value`.
+	 *
+	 * @private
+	 * @param {*} value The value to query.
+	 * @returns {null|Object} Returns the `[[Prototype]]`.
+	 */
+	function getPrototype(value) {
+	  return nativeGetPrototype(Object(value));
+	}
+
+	module.exports = getPrototype;
+
+
+/***/ },
+/* 255 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is a host object in IE < 9.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+	 */
+	function isHostObject(value) {
+	  // Many host objects are `Object` objects that can coerce to strings
+	  // despite having improperly defined `toString` methods.
+	  var result = false;
+	  if (value != null && typeof value.toString != 'function') {
+	    try {
+	      result = !!(value + '');
+	    } catch (e) {}
+	  }
+	  return result;
+	}
+
+	module.exports = isHostObject;
+
+
+/***/ },
+/* 256 */
+/***/ function(module, exports) {
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	module.exports = isObjectLike;
+
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
+	'use strict';
+
+	module.exports = __webpack_require__(258)(global || window || this);
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 258 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function symbolObservablePonyfill(root) {
+		var result;
+		var Symbol = root.Symbol;
+
+		if (typeof Symbol === 'function') {
+			if (Symbol.observable) {
+				result = Symbol.observable;
+			} else {
+				result = Symbol('observable');
+				Symbol.observable = result;
+			}
+		} else {
+			result = '@@observable';
+		}
+
+		return result;
+	};
+
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = combineReducers;
+
+	var _createStore = __webpack_require__(252);
+
+	var _isPlainObject = __webpack_require__(253);
+
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+	var _warning = __webpack_require__(260);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function getUndefinedStateErrorMessage(key, action) {
+	  var actionType = action && action.type;
+	  var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+
+	  return 'Given action ' + actionName + ', reducer "' + key + '" returned undefined. ' + 'To ignore an action, you must explicitly return the previous state.';
+	}
+
+	function getUnexpectedStateShapeWarningMessage(inputState, reducers, action) {
+	  var reducerKeys = Object.keys(reducers);
+	  var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+
+	  if (reducerKeys.length === 0) {
+	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+	  }
+
+	  if (!(0, _isPlainObject2["default"])(inputState)) {
+	    return 'The ' + argumentName + ' has unexpected type of "' + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+	  }
+
+	  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+	    return !reducers.hasOwnProperty(key);
+	  });
+
+	  if (unexpectedKeys.length > 0) {
+	    return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+	  }
+	}
+
+	function assertReducerSanity(reducers) {
+	  Object.keys(reducers).forEach(function (key) {
+	    var reducer = reducers[key];
+	    var initialState = reducer(undefined, { type: _createStore.ActionTypes.INIT });
+
+	    if (typeof initialState === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+	    }
+
+	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
+	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	    }
+	  });
+	}
+
+	/**
+	 * Turns an object whose values are different reducer functions, into a single
+	 * reducer function. It will call every child reducer, and gather their results
+	 * into a single state object, whose keys correspond to the keys of the passed
+	 * reducer functions.
+	 *
+	 * @param {Object} reducers An object whose values correspond to different
+	 * reducer functions that need to be combined into one. One handy way to obtain
+	 * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+	 * undefined for any action. Instead, they should return their initial state
+	 * if the state passed to them was undefined, and the current state for any
+	 * unrecognized action.
+	 *
+	 * @returns {Function} A reducer function that invokes every reducer inside the
+	 * passed object, and builds a state object with the same shape.
+	 */
+	function combineReducers(reducers) {
+	  var reducerKeys = Object.keys(reducers);
+	  var finalReducers = {};
+	  for (var i = 0; i < reducerKeys.length; i++) {
+	    var key = reducerKeys[i];
+	    if (typeof reducers[key] === 'function') {
+	      finalReducers[key] = reducers[key];
+	    }
+	  }
+	  var finalReducerKeys = Object.keys(finalReducers);
+
+	  var sanityError;
+	  try {
+	    assertReducerSanity(finalReducers);
+	  } catch (e) {
+	    sanityError = e;
+	  }
+
+	  return function combination() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+
+	    if (sanityError) {
+	      throw sanityError;
+	    }
+
+	    if (process.env.NODE_ENV !== 'production') {
+	      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action);
+	      if (warningMessage) {
+	        (0, _warning2["default"])(warningMessage);
+	      }
+	    }
+
+	    var hasChanged = false;
+	    var nextState = {};
+	    for (var i = 0; i < finalReducerKeys.length; i++) {
+	      var key = finalReducerKeys[i];
+	      var reducer = finalReducers[key];
+	      var previousStateForKey = state[key];
+	      var nextStateForKey = reducer(previousStateForKey, action);
+	      if (typeof nextStateForKey === 'undefined') {
+	        var errorMessage = getUndefinedStateErrorMessage(key, action);
+	        throw new Error(errorMessage);
+	      }
+	      nextState[key] = nextStateForKey;
+	      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+	    }
+	    return hasChanged ? nextState : state;
+	  };
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 260 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = warning;
+	/**
+	 * Prints a warning in the console if it exists.
+	 *
+	 * @param {String} message The warning message.
+	 * @returns {void}
+	 */
+	function warning(message) {
+	  /* eslint-disable no-console */
+	  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+	    console.error(message);
+	  }
+	  /* eslint-enable no-console */
+	  try {
+	    // This error was thrown as a convenience so that if you enable
+	    // "break on all exceptions" in your console,
+	    // it would pause the execution at this line.
+	    throw new Error(message);
+	    /* eslint-disable no-empty */
+	  } catch (e) {}
+	  /* eslint-enable no-empty */
+	}
+
+/***/ },
+/* 261 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	exports["default"] = bindActionCreators;
+	function bindActionCreator(actionCreator, dispatch) {
+	  return function () {
+	    return dispatch(actionCreator.apply(undefined, arguments));
+	  };
+	}
+
+	/**
+	 * Turns an object whose values are action creators, into an object with the
+	 * same keys, but with every function wrapped into a `dispatch` call so they
+	 * may be invoked directly. This is just a convenience method, as you can call
+	 * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+	 *
+	 * For convenience, you can also pass a single function as the first argument,
+	 * and get a function in return.
+	 *
+	 * @param {Function|Object} actionCreators An object whose values are action
+	 * creator functions. One handy way to obtain it is to use ES6 `import * as`
+	 * syntax. You may also pass a single function.
+	 *
+	 * @param {Function} dispatch The `dispatch` function available on your Redux
+	 * store.
+	 *
+	 * @returns {Function|Object} The object mimicking the original object, but with
+	 * every action creator wrapped into the `dispatch` call. If you passed a
+	 * function as `actionCreators`, the return value will also be a single
+	 * function.
+	 */
+	function bindActionCreators(actionCreators, dispatch) {
+	  if (typeof actionCreators === 'function') {
+	    return bindActionCreator(actionCreators, dispatch);
+	  }
+
+	  if (typeof actionCreators !== 'object' || actionCreators === null) {
+	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+	  }
+
+	  var keys = Object.keys(actionCreators);
+	  var boundActionCreators = {};
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var actionCreator = actionCreators[key];
+	    if (typeof actionCreator === 'function') {
+	      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+	    }
+	  }
+	  return boundActionCreators;
+	}
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports["default"] = applyMiddleware;
+
+	var _compose = __webpack_require__(263);
+
+	var _compose2 = _interopRequireDefault(_compose);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	/**
+	 * Creates a store enhancer that applies middleware to the dispatch method
+	 * of the Redux store. This is handy for a variety of tasks, such as expressing
+	 * asynchronous actions in a concise manner, or logging every action payload.
+	 *
+	 * See `redux-thunk` package as an example of the Redux middleware.
+	 *
+	 * Because middleware is potentially asynchronous, this should be the first
+	 * store enhancer in the composition chain.
+	 *
+	 * Note that each middleware will be given the `dispatch` and `getState` functions
+	 * as named arguments.
+	 *
+	 * @param {...Function} middlewares The middleware chain to be applied.
+	 * @returns {Function} A store enhancer applying the middleware.
+	 */
+	function applyMiddleware() {
+	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+	    middlewares[_key] = arguments[_key];
+	  }
+
+	  return function (createStore) {
+	    return function (reducer, initialState, enhancer) {
+	      var store = createStore(reducer, initialState, enhancer);
+	      var _dispatch = store.dispatch;
+	      var chain = [];
+
+	      var middlewareAPI = {
+	        getState: store.getState,
+	        dispatch: function dispatch(action) {
+	          return _dispatch(action);
+	        }
+	      };
+	      chain = middlewares.map(function (middleware) {
+	        return middleware(middlewareAPI);
+	      });
+	      _dispatch = _compose2["default"].apply(undefined, chain)(store.dispatch);
+
+	      return _extends({}, store, {
+	        dispatch: _dispatch
+	      });
+	    };
+	  };
+	}
+
+/***/ },
+/* 263 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+	exports["default"] = compose;
+	/**
+	 * Composes single-argument functions from right to left. The rightmost
+	 * function can take multiple arguments as it provides the signature for
+	 * the resulting composite function.
+	 *
+	 * @param {...Function} funcs The functions to compose.
+	 * @returns {Function} A function obtained by composing the argument functions
+	 * from right to left. For example, compose(f, g, h) is identical to doing
+	 * (...args) => f(g(h(...args))).
+	 */
+
+	function compose() {
+	  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+	    funcs[_key] = arguments[_key];
+	  }
+
+	  if (funcs.length === 0) {
+	    return function (arg) {
+	      return arg;
+	    };
+	  } else {
+	    var _ret = function () {
+	      var last = funcs[funcs.length - 1];
+	      var rest = funcs.slice(0, -1);
+	      return {
+	        v: function v() {
+	          return rest.reduceRight(function (composed, f) {
+	            return f(composed);
+	          }, last.apply(undefined, arguments));
+	        }
+	      };
+	    }();
+
+	    if (typeof _ret === "object") return _ret.v;
+	  }
+	}
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(251);
+
+	var _bio = __webpack_require__(265);
+
+	var _bio2 = _interopRequireDefault(_bio);
+
+	var _repos = __webpack_require__(267);
+
+	var _repos2 = _interopRequireDefault(_repos);
+
+	var _notes = __webpack_require__(266);
+
+	var _notes2 = _interopRequireDefault(_notes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = (0, _redux.combineReducers)({
+	  bio: _bio2.default,
+	  repos: _repos2.default,
+	  notes: _notes2.default
+	});
+
+/***/ },
+/* 265 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var initalState = {
+	  firstName: 'Justin',
+	  lastName: 'Ober',
+	  age: 28
+	};
+
+	exports.default = function () {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initalState : arguments[0];
+
+	  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	  var firstName = _ref.firstName;
+	  var lastName = _ref.lastName;
+	  var age = _ref.age;
+	  var type = _ref.type;
+
+	  switch (type) {
+	    case 'SET_FIRST_NAME':
+	      return assign({}, state, {
+	        firstName: firstName
+	      });
+	    case 'SET_LAST_NAME':
+	      return assign({}, state, {
+	        lastName: lastName
+	      });
+	    case 'SET_AGE':
+	      return assign({}, state, {
+	        age: age
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
+/* 266 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var initalState = {
+	  firstName: 'Justin',
+	  lastName: 'Ober',
+	  age: 28
+	};
+
+	exports.default = function () {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initalState : arguments[0];
+
+	  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	  var firstName = _ref.firstName;
+	  var lastName = _ref.lastName;
+	  var age = _ref.age;
+	  var type = _ref.type;
+
+	  switch (type) {
+	    case 'SET_FIRST_NAME':
+	      return assign({}, state, {
+	        firstName: firstName
+	      });
+	    case 'SET_LAST_NAME':
+	      return assign({}, state, {
+	        lastName: lastName
+	      });
+	    case 'SET_AGE':
+	      return assign({}, state, {
+	        age: age
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
+/* 267 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var initalState = {
+	  firstName: 'Justin',
+	  lastName: 'Ober',
+	  age: 28
+	};
+
+	exports.default = function () {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? initalState : arguments[0];
+
+	  var _ref = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	  var firstName = _ref.firstName;
+	  var lastName = _ref.lastName;
+	  var age = _ref.age;
+	  var type = _ref.type;
+
+	  switch (type) {
+	    case 'SET_FIRST_NAME':
+	      return assign({}, state, {
+	        firstName: firstName
+	      });
+	    case 'SET_LAST_NAME':
+	      return assign({}, state, {
+	        lastName: lastName
+	      });
+	    case 'SET_AGE':
+	      return assign({}, state, {
+	        age: age
+	      });
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * ReactFire is an open-source JavaScript library that allows you to add a
+	 * realtime data source to your React apps by providing an easy way to let
+	 * Firebase populate the state of React components.
+	 *
+	 * ReactFire 1.0.0
+	 * https://github.com/firebase/reactfire/
+	 * License: MIT
+	 */
+	/* eslint "strict": [2, "function"] */
+	(function(root, factory) {
+	  'use strict';
+
+	  /* istanbul ignore next */
+	  if (true) {
+	    // AMD
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	      return (root.ReactFireMixin = factory());
+	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof exports === 'object') {
+	    // CommonJS
+	    module.exports = factory();
+	  } else {
+	    // Global variables
+	    root.ReactFireMixin = factory();
+	  }
+	}(this, function() {
+	  'use strict';
+
+	  /*************/
+	  /*  HELPERS  */
+	  /*************/
+	  /**
+	   * Returns the key of a Firebase snapshot across SDK versions.
+	   *
+	   * @param {DataSnapshot} snapshot A Firebase snapshot.
+	   * @return {string|null} key The Firebase snapshot's key.
+	   */
+	  function _getKey(snapshot) {
+	    var key;
+	    if (typeof snapshot.key === 'function') {
+	      key = snapshot.key();
+	    } else if (typeof snapshot.key === 'string' || snapshot.key === null) {
+	      key = snapshot.key;
+	    } else {
+	      key = snapshot.name();
+	    }
+	    return key;
+	  }
+
+	  /**
+	   * Returns the reference of a Firebase snapshot or reference across SDK versions.
+	   *
+	   * @param {DataSnapshot|DatabaseReference} snapshotOrRef A Firebase snapshot or reference.
+	   * @return {DatabaseReference} ref The Firebase reference corresponding to the inputted snapshot
+	   * or reference.
+	   */
+	  function _getRef(snapshotOrRef) {
+	    var ref;
+	    if (typeof snapshotOrRef.ref === 'function') {
+	      ref = snapshotOrRef.ref();
+	    } else {
+	      ref = snapshotOrRef.ref;
+	    }
+	    return ref;
+	  }
+
+	  /**
+	   * Returns the index of the key in the list. If an item with the key is not in the list, -1 is
+	   * returned.
+	   *
+	   * @param {Array<any>} list A list of items.
+	   * @param {string} key The key for which to search.
+	   * @return {number} The index of the item which has the provided key or -1 if no items have the
+	   * provided key.
+	   */
+	  function _indexForKey(list, key) {
+	    for (var i = 0, length = list.length; i < length; ++i) {
+	      if (list[i]['.key'] === key) {
+	        return i;
+	      }
+	    }
+
+	    /* istanbul ignore next */
+	    return -1;
+	  }
+
+	  /**
+	   * Throws a formatted error message.
+	   *
+	   * @param {string} message The error message to throw.
+	   */
+	  function _throwError(message) {
+	    throw new Error('ReactFire: ' + message);
+	  }
+
+	  /**
+	   * Validates the name of the variable which is being bound.
+	   *
+	   * @param {string} bindVar The variable which is being bound.
+	   */
+	  function _validateBindVar(bindVar) {
+	    var errorMessage;
+
+	    if (typeof bindVar !== 'string') {
+	      errorMessage = 'Bind variable must be a string. Got: ' + bindVar;
+	    } else if (bindVar.length === 0) {
+	      errorMessage = 'Bind variable must be a non-empty string. Got: ""';
+	    } else if (bindVar.length > 768) {
+	      // Firebase can only stored child paths up to 768 characters
+	      errorMessage = 'Bind variable is too long to be stored in Firebase. Got: ' + bindVar;
+	    } else if (/[\[\].#$\/\u0000-\u001F\u007F]/.test(bindVar)) {
+	      // Firebase does not allow node keys to contain the following characters
+	      errorMessage = 'Bind variable cannot contain any of the following characters: . # $ ] [ /. Got: ' + bindVar;
+	    }
+
+	    if (typeof errorMessage !== 'undefined') {
+	      _throwError(errorMessage);
+	    }
+	  }
+
+	  /**
+	   * Creates a new record given a key-value pair.
+	   *
+	   * @param {string} key The new record's key.
+	   * @param {any} value The new record's value.
+	   * @return {Object} The new record.
+	   */
+	  function _createRecord(key, value) {
+	    var record = {};
+	    if (typeof value === 'object' && value !== null) {
+	      record = value;
+	    } else {
+	      record['.value'] = value;
+	    }
+	    record['.key'] = key;
+
+	    return record;
+	  }
+
+
+	  /******************************/
+	  /*  BIND AS OBJECT LISTENERS  */
+	  /******************************/
+	  /**
+	   * 'value' listener which updates the value of the bound state variable.
+	   *
+	   * @param {string} bindVar The state variable to which the data is being bound.
+	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data being bound.
+	   */
+	  function _objectValue(bindVar, snapshot) {
+	    var key = _getKey(snapshot);
+	    var value = snapshot.val();
+
+	    this.data[bindVar] = _createRecord(key, value);
+
+	    this.setState(this.data);
+	  }
+
+
+	  /*****************************/
+	  /*  BIND AS ARRAY LISTENERS  */
+	  /*****************************/
+	  /**
+	   * 'child_added' listener which adds a new record to the bound array.
+	   *
+	   * @param {string} bindVar The state variable to which the data is being bound.
+	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data being bound.
+	   * @param {string|null} previousChildKey The key of the child after which the provided snapshot
+	   * is positioned; null if the provided snapshot is in the first position.
+	   */
+	  function _arrayChildAdded(bindVar, snapshot, previousChildKey) {
+	    var key = _getKey(snapshot);
+	    var value = snapshot.val();
+	    var array = this.data[bindVar];
+
+	    // Determine where to insert the new record
+	    var insertionIndex;
+	    if (previousChildKey === null) {
+	      insertionIndex = 0;
+	    } else {
+	      var previousChildIndex = _indexForKey(array, previousChildKey);
+	      insertionIndex = previousChildIndex + 1;
+	    }
+
+	    // Add the new record to the array
+	    array.splice(insertionIndex, 0, _createRecord(key, value));
+
+	    // Update state
+	    this.setState(this.data);
+	  }
+
+	  /**
+	   * 'child_removed' listener which removes a record from the bound array.
+	   *
+	   * @param {string} bindVar The state variable to which the data is bound.
+	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the bound data.
+	   */
+	  function _arrayChildRemoved(bindVar, snapshot) {
+	    var array = this.data[bindVar];
+
+	    // Look up the record's index in the array
+	    var index = _indexForKey(array, _getKey(snapshot));
+
+	    // Splice out the record from the array
+	    array.splice(index, 1);
+
+	    // Update state
+	    this.setState(this.data);
+	  }
+
+	  /**
+	   * 'child_changed' listener which updates a record's value in the bound array.
+	   *
+	   * @param {string} bindVar The state variable to which the data is bound.
+	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the data to bind.
+	   */
+	  function _arrayChildChanged(bindVar, snapshot) {
+	    var key = _getKey(snapshot);
+	    var value = snapshot.val();
+	    var array = this.data[bindVar];
+
+	    // Look up the record's index in the array
+	    var index = _indexForKey(array, key);
+
+	    // Update the record's value in the array
+	    array[index] = _createRecord(key, value);
+
+	    // Update state
+	    this.setState(this.data);
+	  }
+
+	  /**
+	   * 'child_moved' listener which updates a record's position in the bound array.
+	   *
+	   * @param {string} bindVar The state variable to which the data is bound.
+	   * @param {Firebase.DataSnapshot} snapshot A snapshot of the bound data.
+	   * @param {string|null} previousChildKey The key of the child after which the provided snapshot
+	   * is positioned; null if the provided snapshot is in the first position.
+	   */
+	  function _arrayChildMoved(bindVar, snapshot, previousChildKey) {
+	    var key = _getKey(snapshot);
+	    var array = this.data[bindVar];
+
+	    // Look up the record's index in the array
+	    var currentIndex = _indexForKey(array, key);
+
+	    // Splice out the record from the array
+	    var record = array.splice(currentIndex, 1)[0];
+
+	    // Determine where to re-insert the record
+	    var insertionIndex;
+	    if (previousChildKey === null) {
+	      insertionIndex = 0;
+	    } else {
+	      var previousChildIndex = _indexForKey(array, previousChildKey);
+	      insertionIndex = previousChildIndex + 1;
+	    }
+
+	    // Re-insert the record into the array
+	    array.splice(insertionIndex, 0, record);
+
+	    // Update state
+	    this.setState(this.data);
+	  }
+
+
+	  /*************/
+	  /*  BINDING  */
+	  /*************/
+	  /**
+	   * Creates a binding between Firebase and the inputted bind variable as either an array or
+	   * an object.
+	   *
+	   * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
+	   * @param {string} bindVar The state variable to which to bind the data.
+	   * @param {function} cancelCallback The Firebase reference's cancel callback.
+	   * @param {boolean} bindAsArray Whether or not to bind as an array or object.
+	   */
+	  function _bind(firebaseRef, bindVar, cancelCallback, bindAsArray) {
+	    if (Object.prototype.toString.call(firebaseRef) !== '[object Object]') {
+	      _throwError('Invalid Firebase reference');
+	    }
+
+	    _validateBindVar(bindVar);
+
+	    if (typeof this.firebaseRefs[bindVar] !== 'undefined') {
+	      _throwError('this.state.' + bindVar + ' is already bound to a Firebase reference');
+	    }
+
+	    // Keep track of the Firebase reference we are setting up listeners on
+	    this.firebaseRefs[bindVar] = _getRef(firebaseRef);
+
+	    if (bindAsArray) {
+	      // Set initial state to an empty array
+	      this.data[bindVar] = [];
+	      this.setState(this.data);
+
+	      // Add listeners for all 'child_*' events
+	      this.firebaseListeners[bindVar] = {
+	        child_added: firebaseRef.on('child_added', _arrayChildAdded.bind(this, bindVar), cancelCallback),
+	        child_removed: firebaseRef.on('child_removed', _arrayChildRemoved.bind(this, bindVar), cancelCallback),
+	        child_changed: firebaseRef.on('child_changed', _arrayChildChanged.bind(this, bindVar), cancelCallback),
+	        child_moved: firebaseRef.on('child_moved', _arrayChildMoved.bind(this, bindVar), cancelCallback)
+	      };
+	    } else {
+	      // Add listener for 'value' event
+	      this.firebaseListeners[bindVar] = {
+	        value: firebaseRef.on('value', _objectValue.bind(this, bindVar), cancelCallback)
+	      };
+	    }
+	  }
+
+
+	  var ReactFireMixin = {
+	    /********************/
+	    /*  MIXIN LIFETIME  */
+	    /********************/
+	    /**
+	     * Initializes the Firebase refs and listeners arrays.
+	     **/
+	    componentWillMount: function() {
+	      this.data = {};
+	      this.firebaseRefs = {};
+	      this.firebaseListeners = {};
+	    },
+
+	    /**
+	     * Unbinds any remaining Firebase listeners.
+	     */
+	    componentWillUnmount: function() {
+	      for (var bindVar in this.firebaseRefs) {
+	        /* istanbul ignore else */
+	        if (this.firebaseRefs.hasOwnProperty(bindVar)) {
+	          this.unbind(bindVar);
+	        }
+	      }
+	    },
+
+
+	    /*************/
+	    /*  BINDING  */
+	    /*************/
+	    /**
+	     * Creates a binding between Firebase and the inputted bind variable as an array.
+	     *
+	     * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
+	     * @param {string} bindVar The state variable to which to bind the data.
+	     * @param {function} cancelCallback The Firebase reference's cancel callback.
+	     */
+	    bindAsArray: function(firebaseRef, bindVar, cancelCallback) {
+	      var bindPartial = _bind.bind(this);
+	      bindPartial(firebaseRef, bindVar, cancelCallback, /* bindAsArray */ true);
+	    },
+
+	    /**
+	     * Creates a binding between Firebase and the inputted bind variable as an object.
+	     *
+	     * @param {Firebase} firebaseRef The Firebase ref whose data to bind.
+	     * @param {string} bindVar The state variable to which to bind the data.
+	     * @param {function} cancelCallback The Firebase reference's cancel callback.
+	     */
+	    bindAsObject: function(firebaseRef, bindVar, cancelCallback) {
+	      var bindPartial = _bind.bind(this);
+	      bindPartial(firebaseRef, bindVar, cancelCallback, /* bindAsArray */ false);
+	    },
+
+	    /**
+	     * Removes the binding between Firebase and the inputted bind variable.
+	     *
+	     * @param {string} bindVar The state variable to which the data is bound.
+	     * @param {function} callback Called when the data is unbound and the state has been updated.
+	     */
+	    unbind: function(bindVar, callback) {
+	      _validateBindVar(bindVar);
+
+	      if (typeof this.firebaseRefs[bindVar] === 'undefined') {
+	        _throwError('this.state.' + bindVar + ' is not bound to a Firebase reference');
+	      }
+
+	      // Turn off all Firebase listeners
+	      for (var event in this.firebaseListeners[bindVar]) {
+	        /* istanbul ignore else */
+	        if (this.firebaseListeners[bindVar].hasOwnProperty(event)) {
+	          var offListener = this.firebaseListeners[bindVar][event];
+	          this.firebaseRefs[bindVar].off(event, offListener);
+	        }
+	      }
+	      delete this.firebaseRefs[bindVar];
+	      delete this.firebaseListeners[bindVar];
+
+	      // Update state
+	      var newState = {};
+	      newState[bindVar] = undefined;
+	      this.setState(newState, callback);
+	    }
+	  };
+
+	  return ReactFireMixin;
+	}));
+
 
 /***/ }
 /******/ ]);

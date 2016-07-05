@@ -1,22 +1,24 @@
 import createRepos from './Github/Repos';
 import createUserProfile from './Github/UserProfile';
 import createNotes from './Notes/Notes';
+import ReactFireMixin from 'reactfire';
 
-export default React => {
+export default (React) => {
 
   const Repos = createRepos(React);
   const UserProfile = createUserProfile(React);
   const Notes = createNotes(React);
 
-  const profile = ({ ...state }) => {
+  //const { bio, notes, repos} = store.getState();
 
-    console.log(state);
-
+  const profile = ({route: {bio, repos, notes}}) => {
+    console.log(bio);
     return (
       <div className="row">
         <div className="col-md-4">
 
-          <UserProfile />
+          <UserProfile { ...bio } />
+
 
         </div>
         <div className="col-md-4">
@@ -29,18 +31,5 @@ export default React => {
     )
   }
 
-  profile.getInitialState = () => {
-    return {
-      notes: [],
-      bio: {
-        name: 'Justin Ober'
-      },
-      repos: []
-    }
-  }
-
   return profile;
 }
-
-
-
