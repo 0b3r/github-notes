@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
-import bioReducer from './Github/bio';
-import reposReducer from './Github/repos';
-import notesReducer from './Notes/notes';
+import bio from './Github/bio';
+import repos from './Github/repos';
+import notes from './Notes/notes';
 
 
 export default combineReducers({
-  bio: bioReducer,
-  repos: reposReducer,
-  notes: notesReducer
+  bio,
+  repos,
+  notes
 });
+

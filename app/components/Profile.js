@@ -9,17 +9,12 @@ export default (React) => {
   const UserProfile = createUserProfile(React);
   const Notes = createNotes(React);
 
-  //const { bio, notes, repos} = store.getState();
-
   const profile = ({route: {bio, repos, notes}}) => {
     console.log(bio);
     return (
       <div className="row">
         <div className="col-md-4">
-
           <UserProfile { ...bio } />
-
-
         </div>
         <div className="col-md-4">
           <Repos />

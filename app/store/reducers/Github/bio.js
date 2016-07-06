@@ -1,3 +1,4 @@
+const assign = Object.assign;
 const initalState = {
   firstName: 'Justin',
   lastName: 'Ober',
@@ -25,3 +26,7 @@ export default (
       return state;
   }
 };
+
+
+
+
