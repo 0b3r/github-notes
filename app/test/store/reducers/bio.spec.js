@@ -28,14 +28,24 @@ export default () => {
       website: 'http://example.com'
     };
 
+    const dontAllow = [1,2,3]
+
     nest.test('...SET_BIO', assert => {
-      const msg = 'It should set a new object for bio';
-      const expected = overwriteBio;
-      const actual = bio(startingBio, {
+      const allowMsg = 'It should set a new object for bio';
+      const allowExpected = overwriteBio;
+      const allowActual = bio(startingBio, {
         type: SET_BIO,
         bio: overwriteBio
       });
-      assert.deepEqual(actual, expected, msg);
+      assert.deepEqual(allowActual, allowExpected, allowMsg);
+
+      const denyMsg = 'It should keep current state if it is not an object';
+      const denyExpected = startingBio;
+      const denyActual = bio(startingBio, {
+        type: SET_BIO,
+        bio: dontAllow
+      });
+      assert.deepEqual(denyActual, denyExpected, denyMsg);
       assert.end();
     });
 

@@ -1,7 +1,9 @@
-import testNotes from './notes.spec.js';
-import testBio from './bio.spec.js';
+import testNotesReducer from './notes.spec.js';
+import testBioReducer from './bio.spec.js';
+import testReposReducer from './repos.spec.js';
 
 export default () => {
-  testNotes();
-  testBio();
+  testNotesReducer();
+  testBioReducer();
+  testReposReducer();
 }
