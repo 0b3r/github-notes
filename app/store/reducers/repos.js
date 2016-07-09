@@ -1,12 +1,10 @@
 import { SET_REPOS } from '../actions/ActionTypes';
+import reducer from '../utils';
 
-export default ( state = [], { repos, type } = {} ) => {
-  switch (type) {
-    case SET_REPOS:
-      if(Array.isArray(repos)){
-        return repos.concat();
-      }
-    default:
-      return state;
-  }
+const reducers = {
+  [SET_REPOS] : (state, { repos }) => (
+    Array.isArray(repos) ? repos.concat() : state
+  )
 };
+
+export default (state = {}, action) => reducer(state, action, reducers);

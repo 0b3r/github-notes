@@ -1,12 +1,12 @@
 import { SET_BIO } from '../actions/ActionTypes';
+import reducer from '../utils';
 
-export default ( state = {}, { bio, type } = {} ) => {
-  switch (type) {
-    case SET_BIO:
-      if(Object.prototype.toString.call(bio) === '[object Object]'){
-        return Object.assign({}, bio);
-      }
-    default:
-      return state;
-  }
+const reducers = {
+  [SET_BIO] : (state, { bio }) => (
+    Object.prototype.toString.call(bio) === '[object Object]' ?
+    Object.assign({}, bio) :
+    state
+  )
 };
+
+export default (state = {}, action) => reducer(state, action, reducers);

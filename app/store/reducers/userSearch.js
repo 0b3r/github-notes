@@ -1,12 +1,10 @@
 import { SEARCH_USER } from '../actions/ActionTypes';
+import reducer from '../utils';
 
-export default (state = '', {type, username} = {}) => {
-  switch(type) {
-    case SEARCH_USER:
-      if(typeof username === 'string'){
-        return username
-      }
-    default:
-      return state;
-  }
+const reducers = {
+  [SEARCH_USER] : (state, { username }) => (
+    typeof username === 'string' ? username : state
+  )
 };
+
+export default (state = {}, action) => reducer(state, action, reducers);

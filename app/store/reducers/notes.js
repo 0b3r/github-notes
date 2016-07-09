@@ -5,43 +5,24 @@ import {
   SET_NOTES
 } from '../actions/ActionTypes';
 import { v4 } from 'node-uuid';
+import reducer from '../utils';
 
-const note = (state, {id, text, type} = {}) => {
-  switch(type) {
-    case ADD_NOTE:
-      return {
-        id: id || v4(),
-        text
-      };
-    case EDIT_NOTE:
-      return Object.assign({}, state, {text});
-    default:
-      return state;
-  }
+const reducers = {
+  [ADD_NOTE] : (state, { id, text }) => (
+    [{
+      id: id || v4(),
+      text
+    }, ...state]
+  ),
+  [EDIT_NOTE] : (state, {id, text}) => (
+    state.map(n => (
+      n.id === id ? Object.assign({}, n, {text}) : n
+    ))
+  ),
+  [DELETE_NOTE] : (state, { id }) => state.filter(n => n.id !== id),
+  [SET_NOTES] : (state, { notes }) => (
+    Array.isArray(notes) ? notes.concat() : state
+  )
 };
 
-const notes = (state = [], action) => {
-  switch(action.type) {
-    case ADD_NOTE:
-      return [
-        note(undefined, action),
-        ...state
-      ]
-    case EDIT_NOTE:
-      return state.map(n => 
-        n.id === action.id ? 
-        note(n, action) : 
-        n
-      );
-    case DELETE_NOTE:
-      return state.filter(n => n.id !== action.id);
-    case SET_NOTES:
-      if(Array.isArray(action.notes)){
-        return action.notes.concat();
-      }
-    default:
-      return state;
-  }
-};
-
-export default notes;
+export default (state = [], action) => reducer(state, action, reducers);
