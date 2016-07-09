@@ -36,7 +36,9 @@ const notes = (state = [], action) => {
     case DELETE_NOTE:
       return state.filter(n => n.id !== action.id);
     case SET_NOTES:
-      return action.notes.concat();
+      if(Array.isArray(action.notes)){
+        return action.notes.concat();
+      }
     default:
       return state;
   }

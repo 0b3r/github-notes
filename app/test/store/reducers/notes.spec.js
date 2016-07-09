@@ -34,6 +34,10 @@ export default () => {
       text: 'Setting note test 3'
     }];
 
+    const dontAllow = {
+      name: 'Dont allow me to overwite notes'
+    };
+
     nest.test('...inital state', assert => {
       const msg = 'It should handle initial state';
       const expected = true;
@@ -94,13 +98,21 @@ export default () => {
     });
 
     nest.test('...SET_NOTES', assert => {
-      const msg = 'It should set a new array of notes';
-      const expected = setNotes;
-      const actual = notes([secondNote, firstNote], {
+      const allowMsg = 'It should set a new array of notes';
+      const allowExpected = setNotes;
+      const allowActual = notes([secondNote, firstNote], {
         type: SET_NOTES,
         notes: setNotes
       });
-      assert.deepEqual(actual, expected, msg);
+      assert.deepEqual(allowActual, allowExpected, allowMsg);
+
+      const denyMsg = 'It should keep current state if it is not an array';
+      const denyExpected = setNotes;
+      const denyActual = notes(setNotes, {
+        type: SET_NOTES,
+        notes: dontAllow
+      });
+      assert.deepEqual(denyActual, denyExpected, denyMsg);
       assert.end();
     });
 
