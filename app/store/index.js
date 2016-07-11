@@ -1,18 +1,15 @@
-import { createStore } from 'redux';
-import throttle from 'lodash/throttle';
+import { createStore, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import githubApp from './reducers';
-import { loadState, saveState } from './localStorage';
 
 export default () => {
-  //const persistedState = loadState();
-  //const store = createStore(githubApp, persistedState);
-  const store = createStore(githubApp);
 
-  /*store.subscribe(throttle(() => {
-    saveState({
-      users: store.getState().users,
-    });
-  }, 1000));*/
+  const middlewares = [routerMiddleware(browserHistory)]
+  const store = createStore(
+    githubApp, 
+    applyMiddleware(...middlewares)
+  );
 
   return store;
 }

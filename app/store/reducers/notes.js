@@ -8,12 +8,7 @@ import { v4 } from 'node-uuid';
 import reducer from '../utils';
 
 const reducers = {
-  [ADD_NOTE] : (state, { id, text }) => (
-    [{
-      id: id || v4(),
-      text
-    }, ...state]
-  ),
+  [ADD_NOTE] : (state, { id, text }) => ([{id,text}, ...state]),
   [EDIT_NOTE] : (state, {id, text}) => (
     state.map(n => (
       n.id === id ? Object.assign({}, n, {text}) : n

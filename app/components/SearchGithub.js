@@ -1,4 +1,6 @@
-import { History } from 'react-router';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux'
+import { searchUser } from '../store/actions';
 
 export default React => {
 
@@ -11,8 +13,7 @@ export default React => {
       if(!input.value.trim()){
         return;
       }
-      //dispatch(updateUsername(input.value));
-      console.log(input.value);
+      dispatch(push(`profile/${input.value}`));
       input.value = '';
     }
 
@@ -37,7 +38,10 @@ export default React => {
     );
   }
 
-  SearchGithub.mixins = [History];
+  SearchGithub.propTypes = {
+    dispatch: React.PropTypes.func.isRequired
+  };
 
-  return SearchGithub;
+
+  return connect()(SearchGithub);
 }
