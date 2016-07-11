@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import createRoot from './components/Root';
 import configureStore from './store';
 
+
 const Root = createRoot(React);
 const store = configureStore();
 

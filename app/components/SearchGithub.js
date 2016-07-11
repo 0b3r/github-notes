@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux'
 import { searchUser } from '../store/actions';
 
 export default React => {
@@ -13,7 +12,8 @@ export default React => {
       if(!input.value.trim()){
         return;
       }
-      dispatch(push(`profile/${input.value}`));
+      // dispatch(push(`/profile/${input.value}`));
+      dispatch(searchUser(input.value));
       input.value = '';
     }
 

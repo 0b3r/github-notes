@@ -1,10 +1,10 @@
-import { SET_REPOS } from '../actions/ActionTypes';
+import * as types from '../actions/ActionTypes';
 import reducer from '../utils';
 
 const reducers = {
-  [SET_REPOS] : (state, { repos }) => (
+  [types.FETCH_USER_SUCCESS] : (state, { repos }) => (
     Array.isArray(repos) ? repos.concat() : state
   )
 };
 
-export default (state = {}, action) => reducer(state, action, reducers);
+export default (state = [], action) => reducer(state, action, reducers);

@@ -7,5 +7,5 @@ export default () => {
   testNotesReducer();
   testBioReducer();
   testReposReducer();
-  testUserSearchReducer();
+  //testUserSearchReducer();
 }

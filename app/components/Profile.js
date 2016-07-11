@@ -1,7 +1,9 @@
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import createRepos from './Github/Repos';
 import createUserProfile from './Github/UserProfile';
 import createNotes from './Notes/Notes';
-import ReactFireMixin from 'reactfire';
+import fetchGithubInfo from '../api';
 
 export default (React) => {
 
@@ -9,12 +11,19 @@ export default (React) => {
   const UserProfile = createUserProfile(React);
   const Notes = createNotes(React);
 
-  const profile = ({route: {bio, repos, notes}}) => {
-    console.log(bio);
+
+
+  const profile = ({dispatch}) => {
+ 
+    // fetchGithubInfo('0b3r').then(({repos}) => {
+    //   console.log(response);
+    //   dispatch({type: 'FETCH_USER_SUCCESS', repos});
+    // });
+
     return (
       <div className="row">
         <div className="col-md-4">
-          <UserProfile { ...bio } />
+          <UserProfile />
         </div>
         <div className="col-md-4">
           <Repos />
@@ -26,5 +35,14 @@ export default (React) => {
     )
   }
 
-  return profile;
+  const mapStateToProps = (state, { params }) => {
+    const username = params.username || '';
+    return {
+      username
+    }
+  }
+
+  return withRouter(connect(
+    mapStateToProps
+  )(profile)); 
 }

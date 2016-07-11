@@ -1,5 +1,16 @@
 // User Search Constant
-export const SEARCH_USER = 'SEARCH_USER';
+export const FETCH_USER = 'FETCH_USER';
+export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
+
+
+
+
+
+
+
+
 
 // Notes Constants
 export const ADD_NOTE = 'ADD_NOTE';

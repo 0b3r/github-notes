@@ -16,6 +16,9 @@ export default React => {
   const Root = ({ store }) => {
 
     const history = syncHistoryWithStore(browserHistory, store);
+    // history.listen(location => {
+    //   console.log(location.query.username);
+    // });
 
     return (
       <Provider store={store}>
