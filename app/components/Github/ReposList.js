@@ -9,14 +9,17 @@ export default React => {
 
     console.log(repos);
     return (
-      <ul>
-        {repos.map(repo =>
-          <RepoItem 
-            key={repo.id}
-            {...repo}
-          />
-        )}
-      </ul>
+      <div>
+        <h3>User Repositories</h3>
+        <ul className="list-group">
+          {repos.map(repo =>
+            <RepoItem 
+              key={repo.id}
+              {...repo}
+            />
+          )}
+        </ul>
+      </div>
     )    
   }
 

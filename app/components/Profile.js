@@ -17,7 +17,7 @@ export default (React) => {
   const UserProfile = createUserProfile(React);
   const Notes = createNotes(React);
 
-  const profile = ({dispatch, isFetching, errorMessage, repos}) => {
+  const profile = ({dispatch, isFetching, errorMessage, repos, bio}) => {
 
     if(isFetching){
       return <p>Loading...</p>;
@@ -30,7 +30,7 @@ export default (React) => {
     return (
       <div className="row">
         <div className="col-md-4">
-          <UserProfile />
+          <UserProfile {...bio} />
         </div>
         <div className="col-md-4">
           <ReposList repos={repos} />
