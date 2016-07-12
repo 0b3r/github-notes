@@ -4,6 +4,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import createMain from './Main';
 import createHome from './Home';
 import createProfile from './Profile';
+import * as actions from '../store/actions';
 
 
 export default React => {
@@ -16,15 +17,18 @@ export default React => {
   const Root = ({ store }) => {
 
     const history = syncHistoryWithStore(browserHistory, store);
-    // history.listen(location => {
-    //   console.log(location.query.username);
-    // });
+
+    const getProfileInfo = ({params:{username}}, replace) => {
+      actions.searchUser(username)(store.dispatch, store.getState);
+    }
 
     return (
       <Provider store={store}>
          <Router history={history}>
            <Route path="/" component={ Main }>
-             <Route path="profile/:username" component={ Profile } />
+             <Route path="profile/:username" 
+                    onEnter={getProfileInfo} 
+                    component={ Profile } />
              <IndexRoute component={ Home } /> 
            </Route>
          </Router>

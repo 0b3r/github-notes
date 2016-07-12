@@ -1,8 +1,8 @@
-import { SET_BIO } from '../actions/ActionTypes';
+import * as types from '../actions/ActionTypes';
 import reducer from '../utils';
 
 const reducers = {
-  [SET_BIO] : (state, { bio }) => (
+  [types.FETCH_USER_SUCCESS] : (state, {response:{bio}}) => (
     Object.prototype.toString.call(bio) === '[object Object]' ?
     Object.assign({}, bio) :
     state

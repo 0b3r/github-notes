@@ -2,7 +2,7 @@ import * as types from '../actions/ActionTypes';
 import reducer from '../utils';
 
 const reducers = {
-  [types.SEARCH_USER] : (state, { username }) => (
+  [types.FETCH_USER_SUCCESS] : (state, { username }) => (
     typeof username === 'string' ? username : state
   )
 };
